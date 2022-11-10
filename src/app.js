@@ -1,6 +1,14 @@
 const express = require("express");
 const app = express();
 const morgan=require('morgan')
+const notes=require('./data/notes-data');
+const router = require("./notes/notes.router");
+const dotenv=require('dotenv')
+dotenv.config()
+
+app.use('/notes',router);
+
+// console.log(process.env.DATABASE_CONNECTION_STRING)
 
 const errorHandler=(err,req,res,next)=>{
   console.error(err);
@@ -18,7 +26,7 @@ const nameValidation=(req,res,next)=>{
     const name=req.params.name;
     if(name.length>10)
     {
-      next("ERROR DETECTED");
+      next("Invalid Name");
     }
     else{
       res.send("invalid name")
